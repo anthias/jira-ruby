@@ -53,6 +53,12 @@ module JIRA
         end
       end
 
+      def self.jql_count(client, jql)
+        url = client.options[:rest_base_path] + "/search?jql=" + CGI.escape(jql)
+        response = client.get(url)
+        parse_json(response.body)['total']
+      end
+
       def respond_to?(method_name)
         if attrs.keys.include?('fields') && attrs['fields'].keys.include?(method_name.to_s)
           true
